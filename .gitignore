@@ -1,0 +1,8 @@
+.vscode
+bin
+obj
+Properties
+BenchmarkDotNet.Artifacts
+appsettings.json
+appsettings.Development.json
+*.user

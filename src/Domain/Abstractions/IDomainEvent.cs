@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace Hotel.src.Domain;
+namespace Hotel.src.Domain.Abstractions;
 
 public interface IDomainEvent : INotification { }

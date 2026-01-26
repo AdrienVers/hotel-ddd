@@ -1,5 +1,5 @@
 using FluentValidation;
-using Hotel.src.Application.Room.Commands.AddRoom;
+using Hotel.src.Application.Room.AddRoom;
 
 namespace Hotel.src.Infrastructure;
 

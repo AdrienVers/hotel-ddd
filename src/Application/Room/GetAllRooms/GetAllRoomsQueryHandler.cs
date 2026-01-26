@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Hotel.src.Application.Room.Queries.GetAllRooms;
+namespace Hotel.src.Application.Room.GetAllRooms;
 
 public sealed class GetAllRoomsQueryHandler(IRoomRepository roomRepository)
     : IRequestHandler<GetAllRoomsQuery, List<RoomOutputDto>>

@@ -1,3 +1,5 @@
+using Hotel.src.Domain.Abstractions;
+
 namespace Hotel.src.Domain.Booking.Values;
 
 public readonly record struct BookingId : IEntityId<BookingId>

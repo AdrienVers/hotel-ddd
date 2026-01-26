@@ -1,3 +1,5 @@
+using Hotel.src.Domain.Abstractions;
+
 namespace Hotel.src.Domain.Review.Values;
 
 public readonly record struct ReviewId : IEntityId<ReviewId>

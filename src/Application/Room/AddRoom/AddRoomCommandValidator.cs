@@ -1,7 +1,7 @@
 using FluentValidation;
 using Hotel.src.Domain.Room.Values;
 
-namespace Hotel.src.Application.Room.Commands.AddRoom;
+namespace Hotel.src.Application.Room.AddRoom;
 
 public sealed class AddRoomCommandValidator : AbstractValidator<RoomInputDto>
 {

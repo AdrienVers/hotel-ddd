@@ -1,3 +1,4 @@
+using Hotel.src.Domain.Abstractions;
 using Hotel.src.Domain.Customer.Values;
 
 namespace Hotel.src.Domain.Customer;

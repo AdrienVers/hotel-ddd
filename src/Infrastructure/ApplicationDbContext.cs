@@ -1,4 +1,4 @@
-using Hotel.src.Application;
+using Hotel.src.Application.Abstractions;
 using Hotel.src.Domain.Room;
 using Hotel.src.Domain.Room.Values;
 using Hotel.src.Domain.Shared;

@@ -1,4 +1,4 @@
-namespace Hotel.src.Domain;
+namespace Hotel.src.Domain.Abstractions;
 
 // primary constructor (C# 12)
 public abstract class Entity<T>(T id)

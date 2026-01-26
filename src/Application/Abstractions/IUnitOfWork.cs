@@ -1,4 +1,4 @@
-namespace Hotel.src.Application;
+namespace Hotel.src.Application.Abstractions;
 
 public interface IUnitOfWork
 {

@@ -1,7 +1,7 @@
 using FluentValidation;
 using Hotel.src.Domain.Shared;
 
-namespace Hotel.src.Application.Room.Queries.GetRoomsFromPeriod;
+namespace Hotel.src.Application.Room.GetRoomsFromPeriod;
 
 public sealed class GetRoomsFromPeriodQueryValidator : AbstractValidator<GetRoomsFromPeriodQuery>
 {

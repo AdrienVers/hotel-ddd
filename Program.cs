@@ -1,4 +1,5 @@
-using Hotel.src.Application;
+using System.Text.Json.Serialization;
+using Hotel.src.Application.Abstractions;
 using Hotel.src.Application.Room;
 using Hotel.src.Infrastructure;
 using Hotel.src.Infrastructure.Room;
@@ -6,7 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder
+    .Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow;
+    });
+
 builder.Services.AddMediatR(configuration =>
     configuration.RegisterServicesFromAssembly(typeof(Program).Assembly)
 );

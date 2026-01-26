@@ -8,4 +8,20 @@ public abstract class Entity<T>(T id)
     where T : struct, IEntityId<T>
 {
     public T Id { get; } = id;
+    private readonly List<IDomainEvent> _domainEvents = [];
+
+    public IReadOnlyList<IDomainEvent> GetDomainEvents()
+    {
+        return _domainEvents.ToList();
+    }
+
+    public void ClearDomainEvents()
+    {
+        _domainEvents.Clear();
+    }
+
+    protected void RaiseDomainEvent(IDomainEvent domainEvent)
+    {
+        _domainEvents.Add(domainEvent);
+    }
 }

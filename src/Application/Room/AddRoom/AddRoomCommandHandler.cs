@@ -28,37 +28,23 @@ public sealed class AddRoomCommandHandler(IUnitOfWork unitOfWork, IRoomRepositor
 
         if (!validationResult.IsValid)
         {
-            // throw new ValidationException(validationResult.Errors);
-            var firstError = validationResult.Errors.First();
-            return Result<RoomId>.Failure(
-                Error.Validation("Room.ValidationFailed", firstError.ErrorMessage)
-            );
-        }
-        var exists = await roomRepository.RoomNumberAlreadyExistsAsync(
-            request.Number,
-            cancellationToken
-        );
+            var errors = validationResult
+                .Errors.Select(error => error.CustomState as Error)
+                .Where(error => error is not null)
+                .ToList()!;
 
-        if (exists)
-        {
-            return Result<RoomId>.Failure(RoomErrors.RoomAlreadyExists);
-        }
-
-        // Validation du prix
-        if (request.PricePerNight <= 0)
-        {
-            return Result<RoomId>.Failure(RoomErrors.InvalidPrice);
+            return Result<RoomId>.Failure(errors.First()!);
         }
 
         var price = Money.From(request.PricePerNight, Currency.EUR);
 
-        // Création de la chambre
         var room = RoomEntity.Create(
             new RoomNumber(request.Number),
             new MaxRoomOccupancy(request.MaxOccupancy),
             price
         );
 
+        // TODO : for Booking part, don't forget add method against race conditions with optimistic concurrency
         await roomRepository.AddAsync(room, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

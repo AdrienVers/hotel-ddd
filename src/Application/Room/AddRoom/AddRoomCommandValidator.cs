@@ -1,4 +1,5 @@
 using FluentValidation;
+using Hotel.src.Domain.Room;
 using Hotel.src.Domain.Room.Values;
 
 namespace Hotel.src.Application.Room.AddRoom;
@@ -9,31 +10,25 @@ public sealed class AddRoomCommandValidator : AbstractValidator<RoomInputDto>
     {
         RuleFor(x => x.Number)
             .NotNull()
-            .WithMessage("Room number is required.")
+            .WithState(_ => RoomErrors.InvalidNumber)
             .GreaterThanOrEqualTo(1)
-            .WithMessage("Room number must start start to 1.")
+            .WithState(_ => RoomErrors.InvalidNumber)
             .MustAsync(
                 async (number, cancellationToken) =>
-                {
-                    var exists = await roomRepository.RoomNumberAlreadyExistsAsync(
-                        number,
-                        cancellationToken
-                    );
-                    return !exists;
-                }
+                    !await roomRepository.RoomNumberAlreadyExistsAsync(number, cancellationToken)
             )
-            .WithMessage("A room with this number already exists.");
+            .WithState(_ => RoomErrors.RoomAlreadyExists);
 
         RuleFor(x => x.PricePerNight)
             .NotNull()
-            .WithMessage("Price per night is required.")
+            .WithState(_ => RoomErrors.InvalidPrice)
             .GreaterThan(0)
-            .WithMessage("Price per night must be greater than 0.");
+            .WithState(_ => RoomErrors.InvalidPrice);
 
         RuleFor(x => x.MaxOccupancy)
             .NotNull()
-            .WithMessage("Max occupancy is required.")
+            .WithState(_ => RoomErrors.InvalidMaxOccupancy)
             .Must(MaxRoomOccupancy.IsValid)
-            .WithMessage("Max occupancy must start to 1.");
+            .WithState(_ => RoomErrors.InvalidMaxOccupancy);
     }
 }

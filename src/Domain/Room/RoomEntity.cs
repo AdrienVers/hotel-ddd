@@ -1,4 +1,5 @@
 using Hotel.src.Domain.Abstractions;
+using Hotel.src.Domain.Room.Events;
 using Hotel.src.Domain.Room.Values;
 using Hotel.src.Domain.Shared;
 
@@ -21,6 +22,8 @@ public sealed class RoomEntity(
         Money pricePerNight
     )
     {
-        return new RoomEntity(RoomId.Generate(), number, maxOccupancy, pricePerNight);
+        var room = new RoomEntity(RoomId.Generate(), number, maxOccupancy, pricePerNight);
+        room.RaiseDomainEvent(new CreatedRoomEvent(room.Id.Value));
+        return room;
     }
 }

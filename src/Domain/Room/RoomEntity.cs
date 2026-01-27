@@ -23,7 +23,7 @@ public sealed class RoomEntity(
     )
     {
         var room = new RoomEntity(RoomId.Generate(), number, maxOccupancy, pricePerNight);
-        room.RaiseDomainEvent(new CreatedRoomEvent(room.Id.Value));
+        room.RaiseDomainEvent(new CreatedRoomEvent(room.Id.Value, number.Value));
         return room;
     }
 }

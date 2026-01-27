@@ -9,7 +9,8 @@ public sealed class AddRoomEventHandler(ILogger<AddRoomEventHandler> logger)
     public Task Handle(CreatedRoomEvent notification, CancellationToken cancellationToken)
     {
         logger.LogInformation(
-            "Room created with ID: {RoomId} at {Timestamp}",
+            "Room number {RoomNumber} created with ID: {RoomId} at {Timestamp}",
+            notification.RoomNumber,
             notification.RoomId,
             DateTime.UtcNow
         );

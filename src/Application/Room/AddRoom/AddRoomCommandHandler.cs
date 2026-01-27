@@ -44,10 +44,16 @@ public sealed class AddRoomCommandHandler(IUnitOfWork unitOfWork, IRoomRepositor
             price
         );
 
-        // TODO : for Booking part, don't forget add method against race conditions with optimistic concurrency
-        await roomRepository.AddAsync(room, cancellationToken);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await roomRepository.AddAsync(room, cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<RoomId>.Success(room.Id.Value);
+            return Result<RoomId>.Success(room.Id.Value);
+        }
+        catch (ConcurrencyException)
+        {
+            return Result<RoomId>.Failure(RoomErrors.RoomAlreadyExists);
+        }
     }
 }

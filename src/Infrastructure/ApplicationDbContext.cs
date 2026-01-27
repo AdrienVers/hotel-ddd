@@ -1,5 +1,4 @@
 using Hotel.src.Application.Abstractions;
-using Hotel.src.Domain.Abstractions;
 using Hotel.src.Domain.Room;
 using Hotel.src.Domain.Room.Values;
 using Hotel.src.Domain.Shared;
@@ -60,6 +59,8 @@ public sealed class ApplicationDbContext(
                 .Property(e => e.Number)
                 .HasConversion(number => number.Value, value => new RoomNumber(value))
                 .HasColumnName("Number");
+
+            entity.HasIndex(e => e.Number).IsUnique();
 
             entity
                 .Property(e => e.MaxOccupancy)

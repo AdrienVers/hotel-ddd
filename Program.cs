@@ -25,6 +25,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        "AllowAngular",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+        }
+    );
+});
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -40,6 +51,8 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection();
+
+app.UseCors("AllowAngular");
 
 app.MapGet("/", () => Results.Ok("Welcome"));
 app.MapControllers();

@@ -14,4 +14,5 @@ public interface IRoomRepository
     Task<RoomEntity?> GetByIdAsync(RoomId roomId, CancellationToken cancellationToken);
     Task AddAsync(RoomEntity room, CancellationToken cancellationToken);
     Task<bool> RoomNumberAlreadyExistsAsync(int number, CancellationToken cancellationToken);
+    Task RemoveAsync(RoomEntity room, CancellationToken cancellationToken);
 }

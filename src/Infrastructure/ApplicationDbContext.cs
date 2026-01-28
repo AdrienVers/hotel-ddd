@@ -16,9 +16,9 @@ public sealed class ApplicationDbContext(
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var result = await base.SaveChangesAsync(cancellationToken);
-
         await PublishDomainEventsAsync(cancellationToken);
+
+        var result = await base.SaveChangesAsync(cancellationToken);
 
         return result;
     }

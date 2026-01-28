@@ -26,4 +26,9 @@ public sealed class RoomEntity(
         room.RaiseDomainEvent(new CreatedRoomEvent(room.Id.Value, number.Value));
         return room;
     }
+
+    public void Remove()
+    {
+        RaiseDomainEvent(new RemovedRoomEvent(Id.Value, Number.Value));
+    }
 }

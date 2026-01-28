@@ -3,6 +3,7 @@ using Hotel.src.Application.Room;
 using Hotel.src.Application.Room.AddRoom;
 using Hotel.src.Application.Room.GetAllRooms;
 using Hotel.src.Application.Room.GetRoomsFromPeriod;
+using Hotel.src.Application.Room.RemoveRoom;
 using Hotel.src.Domain.Room.Values;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,24 @@ public sealed class RoomController(IMediator mediator) : ControllerBase
 
         return result.Match(
             onSuccess: roomId => Ok(roomId),
+            onFailure: error =>
+                error.Type switch
+                {
+                    Error.ErrorType.Validation => BadRequest(new { error.Code, error.Message }),
+                    Error.ErrorType.Conflict => Conflict(new { error.Code, error.Message }),
+                    Error.ErrorType.NotFound => NotFound(new { error.Code, error.Message }),
+                    _ => StatusCode(500, new { error.Code, error.Message }),
+                }
+        );
+    }
+
+    [HttpDelete("{roomId:guid}")]
+    public async Task<ActionResult<RoomId>> RemoveAsync([FromRoute] Guid roomId)
+    {
+        var result = await mediator.Send(new RemoveRoomCommand(roomId));
+
+        return result.Match(
+            onSuccess: id => Ok(id),
             onFailure: error =>
                 error.Type switch
                 {

@@ -48,4 +48,9 @@ public sealed class RoomRepository(ApplicationDbContext dbContext) : IRoomReposi
         var roomNumber = new RoomNumber(number);
         return await dbContext.Rooms.AnyAsync(room => room.Number == roomNumber, cancellationToken);
     }
+
+    public async Task RemoveAsync(RoomEntity room, CancellationToken cancellationToken)
+    {
+        dbContext.Rooms.Remove(room);
+    }
 }

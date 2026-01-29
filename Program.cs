@@ -4,8 +4,16 @@ using Hotel.src.Application.Room;
 using Hotel.src.Infrastructure;
 using Hotel.src.Infrastructure.Room;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog(
+    (context, configuration) =>
+    {
+        configuration.ReadFrom.Configuration(context.Configuration);
+    }
+);
 
 builder
     .Services.AddControllers()
@@ -51,6 +59,8 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection();
+
+app.UseSerilogRequestLogging();
 
 app.UseCors("AllowAngular");
 

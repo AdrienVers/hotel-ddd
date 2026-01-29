@@ -4,5 +4,7 @@ obj
 Properties
 BenchmarkDotNet.Artifacts
 appsettings.json
+appsettings.Docker.json
 appsettings.Development.json
 *.user
+docker-compose.yml
